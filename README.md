@@ -5,6 +5,7 @@ Brain-inspired multimodal hybrid neural network for robot place recognition
 •	Note: If the environment configurations are different, the results may fail to work properly. You may need to modify the package version or adjust code details according to your needs.
 
 Setup
+
 All the codes of this project have been debugged and passed on Python 3.5.4 and Pycharm platforms.
 
 •	Installation link for Pycharm: https://www.jetbrains.com/pycharm/download/
