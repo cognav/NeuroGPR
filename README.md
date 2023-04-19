@@ -14,10 +14,11 @@
 This library implements a brain-inspired multimodal hybrid neural network (MHNN) for robot place recognition. The MHNN encodes and integrates multimodal cues from both conventional and neuromorphic sensors. Specifically, to encode different sensory cues, we build various neural networks of spatial view cells, place cells, head direction cells, and time cells. To integrate these cues, we design a multiscale liquid state machine that can process and fuse multimodal information effectively and asynchronously by using diverse neuronal dynamics and bio-inspired inhibitory circuits. 
 
 ## Structure
-*	model: contains the MHNN model
-*	tools: contains the utils 
-*	config: contains the configure files 
-*	main: contains the demo 
+> * src
+>> *	model: contains the MHNN model
+>> *	tools: contains the utils 
+>> *	config: contains the configure files 
+>> *	main: contains the demo 
 
 ## Usage
 * Step 1, setup the running environments
