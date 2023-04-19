@@ -38,7 +38,7 @@ The following libraries are needed for running the demo.
 
 ## Datasets
 The datasets include four groups of data collected in different environments. 
-* The Room, Corridor, and THU-Forest datasets are available on Zenodo (10.5281/zenodo.7827108). 
+* The Room, Corridor, and THU-Forest datasets are available on Zenodo (https://zenodo.org/record/7827108#.ZD_ke3bP0ds). 
 * The public Brisbane-Event-VPR dataset is available on Zenodo (https://zenodo.org/record/4302805#.ZD8puXbP0ds). 
 
 ## Citation
