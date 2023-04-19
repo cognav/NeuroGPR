@@ -44,7 +44,7 @@ The datasets include four groups of data collected in different environments.
 Fangwen Yu, Yujie Wu, Songchen Ma, Mingkun Xu, Hongyi Li, Huanyu Qu, Chenhang Song, Taoyi Wang, Rong Zhao and Luping Shi. Brain-inspired multimodal hybrid neural network for robot place recognition. Science Robotics (accepted). 
 
 ## License
-Apache
+MIT License
 
 ## Acknowledgments 
 If you have any questions, please contact us. 
