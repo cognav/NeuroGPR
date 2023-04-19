@@ -22,9 +22,9 @@ This library implements a brain-inspired multimodal hybrid neural network (MHNN)
 ## Usage
 * Step 1, setup the running environments
 * Step 2, download the datasets 
-* Step 3, download the code:
+* Step 3, download the code: <br>
 git clone https://github.com/cognav/neurogpr.git
-* Step 4, run the demo in the folder of ‘main’ : 
+* Step 4, run the demo in the folder of ‘main’ :  <br> 
 python main_mhnn.py --config_file ../config/corridor_setting.ini
 
 ## Requirements
