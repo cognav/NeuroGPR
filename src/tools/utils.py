@@ -110,7 +110,7 @@ def Data(data_path=None, batch_size=None, exp_idx=None, is_shuffle=True, normali
     dataset = SequentialDataset(data_dir=data_path,
                                 exp_idx=exp_idx,
                                 transform=torchvision.transforms.Compose([
-                                    torchvision.transforms.Resize((224, 224)),
+                                    torchvision.transforms.Resize((240, 320)),
                                     torchvision.transforms.ToTensor(),
                                     normalize,
                                 ]),
