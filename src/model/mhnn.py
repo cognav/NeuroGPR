@@ -196,7 +196,7 @@ class MHNN(nn.Module):
         return optimizer, scheduler
 
     def wta_mem_update(self, fc, fv, k, inputx, spike, mem, thr, ref, last_cur):
-        state = fc(inputx)
+        state = fc(inputx) + fv(spike)
         mem = (mem - spike * ref) * self.decay + state + last_cur
         q0 = (100 -20)/100
         mem = mem.reshape(self.batch_size, self.num_blockneuron, -1)
