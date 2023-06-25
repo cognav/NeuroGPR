@@ -6,7 +6,8 @@ from src.model.snn import *
 from src.model.cann import CANN
 from src.tools.utils import *
 
-os.environ['CUDA_VISIBLE_DEVICES'] = "3"
+# gpu environment 
+#os.environ['CUDA_VISIBLE_DEVICES'] = "3"
 device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
 
 class MHNN(nn.Module):
@@ -119,7 +120,6 @@ class MHNN(nn.Module):
         self.reservoir_num = self.reservoir_num
 
         self.threshold = 0.5
-
         self.decay = nn.Parameter(torch.rand(self.reservoir_num))
 
         self.K = 128
@@ -159,12 +159,13 @@ class MHNN(nn.Module):
         self.project.weight.data = self.project.weight.data * self.project_mask_matrix.t()
 
         self.lateral_conn = nn.Linear(self.reservoir_num, self.reservoir_num)
-
+        
+        # control the ratio of # of lateral conn.
         self.lateral_conn_mask = torch.rand(self.reservoir_num, self.reservoir_num) > 0.8
-
+        # remove self-recurrent conn. 
         self.lateral_conn_mask = self.lateral_conn_mask * (1 - torch.eye(self.reservoir_num, self.reservoir_num))
-
-        self.lateral_conn.weight.data = 0 * self.lateral_conn.weight.data * self.lateral_conn_mask.T
+        # adjust the intial weight of conn. 
+        self.lateral_conn.weight.data = 1e-3 * self.lateral_conn.weight.data * self.lateral_conn_mask.T
 
         #############
         # readout module
@@ -196,15 +197,21 @@ class MHNN(nn.Module):
         return optimizer, scheduler
 
     def wta_mem_update(self, fc, fv, k, inputx, spike, mem, thr, ref, last_cur):
-        state = fc(inputx) + fv(spike)
+        # scaling_lateral_inputs = 0.1
+        #state = fc(inputx) + fv(spike) * scaling_lateral_inputs
+        state = fc(inputx) + fv(spike) 
+        
         mem = (mem - spike * ref) * self.decay + state + last_cur
+        # ratio of # of winners
         q0 = (100 -20)/100
         mem = mem.reshape(self.batch_size, self.num_blockneuron, -1)
         nps = torch.quantile(mem, q=q0, keepdim=True, axis=1)
         # nps =mem.max(axis=1,keepdim=True)[0] - thr
 
+        # allows that only winner can fire spikes
         mem = F.relu(mem - nps).reshape(self.batch_size, -1)
 
+        # spiking firing function
         spike = act_fun(mem - thr)
         return spike.float(), mem
 
@@ -231,6 +238,8 @@ class MHNN(nn.Module):
             out2 = torch.zeros(self.seq_len_dvs * 3, batch_size, self.snn_out_dim, device=self.device).to(torch.float32)
 
         ### CANN module
+
+        
         if self.w_gps + self.w_head + self.w_time > 0:
             gps_record = []
             for idx in range(batch_size):
@@ -277,6 +286,7 @@ class MHNN(nn.Module):
         for step in range(expand_len):
 
             idx = step % 3
+            # simulate multimodal information with different time scales
             if idx == 2:
                 combined_input = torch.cat((out1[step // 3], out2[step], out3[step // 3], out4[step // 3], out5[step // 3]), axis=1)
             else:
